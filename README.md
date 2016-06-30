@@ -1,18 +1,19 @@
 # NUnitRetryOnException
-NUnit extension that catches exceptions and allows the test to be retried use-sing the NUnit Retry Option; Very useull for Selenium UI automated test. 
+NUnit extension that catches exceptions and allows the test to be retried using the NUnit Retry Attribute; 
+Very useful for Selenium UI automated tests. 
 
 ## Instructions for Use
 Get the package from Nuget
 
-[Test]
+    [Test]
     [RetryOnException(ListOfExceptions = new[] { typeof(Exception)})]
-    //Retry 
     [Retry(5)]
     public void Test()
     {
+        ...
     }
 
-###Examplees of exceptions
+###Examples of exceptions
 [RetryOnException(ListOfExceptions = new[] { typeof(NotSupportedException), typeof(NullReferenceException) })]
 
 
