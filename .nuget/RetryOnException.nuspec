@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>RetryOnException</id>
+    <version>1.0.1</version>
+    <authors>Steve Gray and Garry Edmonds</authors>
+    <owners>Steve Gray and Garry Edmonds</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Retry policy to allow a NUnit test to retry if the given exception thrown is a retry exception type.</description>
+    <copyright></copyright>
+    <dependencies>   
+      <dependency id="NUnit" version="3.4.1" />
+	</dependencies>
+    </metadata>
+    <files>
+      <file src="..\RetryOnException\bin\Release\RetryOnException.dll" target="lib\RetryOnException.dll" />
+      <file src="..\RetryOnException\bin\Release\RetryOnException.xml" target="lib\RetryOnException.xml" />
+    </files>
+</package>
