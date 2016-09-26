@@ -59,7 +59,7 @@ namespace RetryOnException
                     exception = ex;
                 }
 
-                if (_listOfExceptions.Any(ex => ex == caughtType))
+                if (_listOfExceptions.Any(ex => ex == caughtType || caughtType == typeof(AssertionException)))
                 {
                     return ReturnTestResult(context, caughtType, exception);
                 }
