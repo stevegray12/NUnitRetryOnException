@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>RetryOnException</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <authors>Steve Gray and Garry Edmonds</authors>
     <owners>Steve Gray and Garry Edmonds</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
