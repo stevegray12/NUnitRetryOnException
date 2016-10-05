@@ -49,22 +49,23 @@ namespace RetryOnException
                 {
                     resultState = innerCommand.Execute(context).ResultState;
                 }
-                catch (Exception ex)
+                catch (Exception thrownException)
                 {
-                    if (ex is NUnitException)
+                    if (thrownException is NUnitException)
                     {
-                        ex = ex.InnerException;
+                        thrownException = thrownException.InnerException;
                     }
-                    caughtType = ex.GetType();
-                    exception = ex;
+                    caughtType = thrownException.GetType();
+                    exception = thrownException;
+
+                    if (_listOfExceptions.Any(ex => ex == caughtType || caughtType == typeof(AssertionException)))
+                    {
+                        return ReturnTestResult(context, caughtType, exception);
+                    }
+
+                    throw;
                 }
 
-                if (_listOfExceptions.Any(ex => ex == caughtType || caughtType == typeof(AssertionException)))
-                {
-                    return ReturnTestResult(context, caughtType, exception);
-                }
-
-                context.CurrentResult.SetResult(resultState);
                 return context.CurrentResult;
             }
 
