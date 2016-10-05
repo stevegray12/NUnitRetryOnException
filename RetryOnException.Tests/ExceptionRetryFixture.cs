@@ -67,6 +67,30 @@ namespace RetryOnException.Tests
     }
 
     /// <summary>
+    /// This test shows that if different exceptions are thrown that are in the retry list that the test is retried for both of the exceptions.
+    /// </summary>
+    public class DifferentExceptionIsRetriedFixture : RepeatingTestsFixtureBase
+    {
+        [Test]
+        [RetryOnException(ListOfExceptions = new[] { typeof(NotSupportedException), typeof(NullReferenceException) })]
+        [Retry(3)]
+        public void RetryWhenDifferentExceptionsAreThrownAndInList()
+        {
+            Count++;
+            if (Count == 1)
+            {
+                Assert.Throws<NotSupportedException>(() => { throw new NotSupportedException(); });
+            }
+            if (Count == 2)
+            {
+                Assert.Throws<NullReferenceException>(() => { throw new NullReferenceException(); });
+            }
+            Assert.That(Count == 3);
+            Assert.That(TestContext.CurrentContext.Result.Outcome, Is.EqualTo(ResultState.Failure));
+        }
+    }
+
+    /// <summary>
     /// This test shows that if an exception that is not in the retry list then the test does not retry and runs once only, 
     /// returning the exception message back to the running test.
     /// </summary>
@@ -86,5 +110,5 @@ namespace RetryOnException.Tests
         }
 
     }
-
+    
 }

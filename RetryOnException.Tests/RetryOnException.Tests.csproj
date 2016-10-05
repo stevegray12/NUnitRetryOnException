@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="ExceptionRetryFixture.cs" />
     <Compile Include="RepeatingTestsFixtureBase.cs" />
-    <Compile Include="TestBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
