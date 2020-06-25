@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>RetryOnException</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <authors>Steve Gray and Garry Edmonds</authors>
     <owners>Steve Gray and Garry Edmonds</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Retry policy to allow a NUnit test to retry if the given exception thrown is a retry exception type.</description>
     <copyright></copyright>
     <dependencies>   
-      <dependency id="NUnit" version="3.4.1" />
+      <dependency id="NUnit" version="3.12.0" />
 	</dependencies>
     </metadata>
     <files>

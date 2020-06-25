@@ -5,35 +5,35 @@ namespace RetryOnException.Tests
     [TestFixture]
     public class RepeatingTestsFixtureBase
     {
-        public int OneTimeSetupCount { get; private set; }
-        public int OneTimeTeardownCount { get; private set; }
-        public int SetupCount { get; private set; }
-        public int TeardownCount { get; private set; }
+        //public int OneTimeSetupCount { get; private set; }
+        //public int OneTimeTeardownCount { get; private set; }
+        //public int SetupCount { get; private set; }
+        //public int TeardownCount { get; private set; }
         public int Count { get; set; }
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            OneTimeSetupCount++;
-        }
+        //[OneTimeSetUp]
+        //public void OneTimeSetUp()
+        //{
+        //    OneTimeSetupCount++;
+        //}
 
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            OneTimeTeardownCount++;
-        }
+        //[OneTimeTearDown]
+        //public void OneTimeTearDown()
+        //{
+        //    OneTimeTeardownCount++;
+        //}
 
-        [SetUp]
-        public void SetUp()
-        {
-            SetupCount++;
-        }
+        //[SetUp]
+        //public void SetUp()
+        //{
+        //    SetupCount++;
+        //}
 
-        [TearDown]
-        public void TearDown()
-        {
-            TeardownCount++;
-        }
+        //[TearDown]
+        //public void TearDown()
+        //{
+        //    TeardownCount++;
+        //}
         
     }
 }

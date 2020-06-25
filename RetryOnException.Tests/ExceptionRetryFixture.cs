@@ -9,6 +9,8 @@ namespace RetryOnException.Tests
     /// </summary>
     public class ExceptionIsRetriedFixture : RepeatingTestsFixtureBase
     {
+        public int Count { get; set; }
+
         [Test]
         [RetryOnException(ListOfExceptions = new[] {typeof(NotSupportedException)})]
         [Retry(3)]
@@ -18,28 +20,30 @@ namespace RetryOnException.Tests
             Count++;
             if (Count == totalAttempts)
             {
-                if (Equals(TestContext.CurrentContext.Result.Outcome, ResultState.Failure))
-                {
-                    Assert.Pass();
-                }
-                else
-                {
-                    Assert.Fail();
-                }
+                Assert.That(Count, Is.EqualTo(totalAttempts));
+                Assert.That(TestContext.CurrentContext.Result.Outcome, Is.EqualTo(ResultState.Inconclusive));
             }
             else if (Count > totalAttempts)
             {
-                Assert.Fail();
+                Assert.That(Count, Is.EqualTo(totalAttempts));
+                Assert.That(TestContext.CurrentContext.Result.Outcome, Is.EqualTo(ResultState.Inconclusive));
             }
-            throw new NotSupportedException();
+            else
+            {
+                throw new NotSupportedException();
+            }
+            
         }
     }
 
     /// <summary>
     /// This test shows that multiple exceptions can be setup and if one of the exceptions is thrown then the test retries.
     /// </summary>
-    public class MultipleExceptionSetupIsRetriedFixture : RepeatingTestsFixtureBase
+    [TestFixture]
+    public class MultipleExceptionSetupIsRetriedFixture //: RepeatingTestsFixtureBase
     {
+        public int Count { get; private set; }
+
         [Test]
         [RetryOnException(ListOfExceptions = new[] {typeof(NotSupportedException), typeof(NullReferenceException)})]
         [Retry(5)]
@@ -49,20 +53,19 @@ namespace RetryOnException.Tests
             Count++;
             if (Count == totalAttempts)
             {
-                if (Equals(TestContext.CurrentContext.Result.Outcome, ResultState.Failure))
-                {
-                    Assert.Pass();
-                }
-                else
-                {
-                    Assert.Fail();
-                }
+                Assert.That(Count, Is.EqualTo(totalAttempts));
+                Assert.That(TestContext.CurrentContext.Result.Outcome, Is.EqualTo(ResultState.Inconclusive));
             }
             else if (Count > totalAttempts)
             {
-                Assert.Fail();
+                Assert.That(Count, Is.EqualTo(totalAttempts));
+                Assert.That(TestContext.CurrentContext.Result.Outcome, Is.EqualTo(ResultState.Inconclusive));
             }
-            throw new NullReferenceException();
+            else
+            {
+                throw new NullReferenceException();
+            }
+            
         }
     }
 
@@ -77,16 +80,18 @@ namespace RetryOnException.Tests
         public void RetryWhenDifferentExceptionsAreThrownAndInList()
         {
             Count++;
-            if (Count == 1)
+            switch (Count)
             {
-                Assert.Throws<NotSupportedException>(() => { throw new NotSupportedException(); });
+                case 1:
+                    Assert.Throws<NotSupportedException>(() => throw new NotSupportedException());
+                    break;
+                case 2:
+                    Assert.Throws<NullReferenceException>(() => throw new NullReferenceException());
+                    break;
             }
-            if (Count == 2)
-            {
-                Assert.Throws<NullReferenceException>(() => { throw new NullReferenceException(); });
-            }
+
             Assert.That(Count == 3);
-            Assert.That(TestContext.CurrentContext.Result.Outcome, Is.EqualTo(ResultState.Failure));
+            Assert.That(TestContext.CurrentContext.Result.Outcome, Is.EqualTo(ResultState.Inconclusive));
         }
     }
 
@@ -103,7 +108,7 @@ namespace RetryOnException.Tests
         {
             Count++;
 
-            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => { throw new ArgumentOutOfRangeException(); });
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => throw new ArgumentOutOfRangeException());
             Assert.That(Count == 1);
             Assert.That(TestContext.CurrentContext.Result.Outcome, Is.EqualTo(ResultState.Inconclusive));
             Assert.That(ex.Message, Is.EqualTo(new ArgumentOutOfRangeException().Message));

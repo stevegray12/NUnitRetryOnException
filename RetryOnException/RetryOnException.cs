@@ -22,6 +22,21 @@ namespace RetryOnException
     public class RetryOnExceptionAttribute : NUnitAttribute, IWrapTestMethod
     {
         /// <summary>
+        /// Constructor which requires th list of exceptions to be passed in.
+        /// </summary>
+        /// <param name="listOfExceptions">List of exceptions to retry on.</param>
+        public RetryOnExceptionAttribute(Type[] listOfExceptions)
+        {
+            _listOfExceptions = listOfExceptions;
+        }
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public RetryOnExceptionAttribute()
+        { }
+
+        /// <summary>
         /// Storage for all the exception types that are allowed to be retried, using the NUnit Retry attribute.
         /// </summary>
         public Type[] ListOfExceptions
@@ -42,12 +57,12 @@ namespace RetryOnException
 
             public override TestResult Execute(TestExecutionContext context)
             {
-                Type caughtType = null;
-                Exception exception = null;
-                var resultState = new ResultState(TestStatus.Failed);
+                Type caughtType;
                 try
                 {
-                    resultState = innerCommand.Execute(context).ResultState;
+                    context.CurrentResult = innerCommand.Execute(context);
+
+                    return context.CurrentResult;
                 }
                 catch (Exception thrownException)
                 {
@@ -55,22 +70,20 @@ namespace RetryOnException
                     {
                         thrownException = thrownException.InnerException;
                     }
-                    caughtType = thrownException.GetType();
-                    exception = thrownException;
+                    caughtType = thrownException?.GetType();
+                    var exception = thrownException;
 
                     if (_listOfExceptions.Any(ex => ex == caughtType || caughtType == typeof(AssertionException)))
                     {
                         return ReturnTestResult(context, caughtType, exception);
                     }
-
-                    throw;
                 }
-
                 return context.CurrentResult;
             }
 
             private static TestResult ReturnTestResult(TestExecutionContext context, Type caughtType, Exception exception)
             {
+                context.CurrentTest.MakeTestResult();
                 context.CurrentResult.SetResult(ResultState.Failure, string.Format("{0} Inner Exception {1}", caughtType, exception));
                 return context.CurrentResult;
             }
