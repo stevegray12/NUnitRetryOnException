@@ -12,6 +12,7 @@
     <Description>Retry policy to allow a NUnit test to retry if the given exception thrown is a retry exception type.</Description>
     <Company />
     <PackageProjectUrl>https://github.com/stevegray12/NUnitRetryOnException</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
