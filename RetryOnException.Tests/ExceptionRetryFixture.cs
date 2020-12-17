@@ -7,7 +7,7 @@ namespace RetryOnException.Tests
     /// <summary>
     /// This test shows that if an exception is setup to retry, then the test is run multiple times when that exception is thrown.
     /// </summary>
-    public class ExceptionIsRetriedFixture : RepeatingTestsFixtureBase
+    public class ExceptionIsRetriedFixture //: RepeatingTestsFixtureBase
     {
         public int Count { get; set; }
 
